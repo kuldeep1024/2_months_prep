@@ -4,13 +4,14 @@
 
 ## Daily Log
 
-| Day | Date            | What I built                                                      | What was difficult             |
-|---|-----------------|-------------------------------------------------------------------|--------------------------------|
-| 1 | 2026-09-01      | Java 21 examples , Java 8 → 21 Evolution                          | Flow scoping                   |
-| 1 | 2026-09-02      | Records, Sealed Types & Immutable Domain Modelling                | Record	vs Lombok @Value vs POJO |
-| 1 | 2026-09-03      | Pattern Matching for switch, Record Patterns & Switch Expressions | Visitor Pattern, exhaustiveness              |
-| 2 |                 |                                                                   |                                |
-| 3 |                 |                                                                   |                                |
+| Day | Date       | What I built                                                      | What was difficult              |
+|-----|------------|-------------------------------------------------------------------|---------------------------------|
+| 1   | 2026-09-01 | Java 21 examples , Java 8 → 21 Evolution                          | Flow scoping                    |
+| 2   | 2026-09-02 | Records, Sealed Types & Immutable Domain Modelling                | Record	vs Lombok @Value vs POJO  |
+| 3   | 2026-09-03 | Pattern Matching for switch, Record Patterns & Switch Expressions | Visitor Pattern, exhaustiveness |
+| 4   | 2026-09-04 | Collections Deep Dive, Sequenced Collections & Advanced Streams   |                                 |
+|    |            |                                                                   |                                 |
+|    |            |                                                                   |                                 |
 
 
 | Feature                   | Record       | Lombok `@Value`                            | POJO    |
@@ -47,3 +48,18 @@ Pattern matching removes much of the boilerplate required by the classical Visit
 ## When would I still choose Visitor?
 
 I would still choose Visitor when the set of element types is stable but many different operations need to be added independently. Visitor keeps each operation in a separate class and follows the traditional double-dispatch approach. It can also be useful when working with an existing class hierarchy or when the design requires Visitor-specific behavior. For a small, closed hierarchy in modern Java, however, sealed types and pattern matching usually provide a simpler and more readable solution.
+
+## Immutable Collections
+### Rule of thumb:
+    List.of() → "I'm creating an immutable list."
+    List.copyOf() → "I'm taking an immutable copy of this list."
+    unmodifiableList() → "I want a read-only window onto this existing list."
+
+| Feature | `List.of()` | `Collections.unmodifiableList()` | `List.copyOf()` |
+|---|---|---|---|
+| Creates a new list? | Yes | No — creates a read-only view | Yes, effectively an immutable copy |
+| Can modify through returned list? | ❌ | ❌ | ❌ |
+| Changes to original list visible? | ❌ | ✅ Yes | ❌ |
+| Allows `null`? | ❌ | Usually ✅ | ❌ |
+| Immutable? | ✅ | ❌ (only the view is unmodifiable) | ✅ |
+| Best use | Creating small immutable lists | Exposing an existing mutable list safely | Taking an immutable snapshot |
