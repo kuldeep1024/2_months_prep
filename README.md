@@ -7,11 +7,12 @@
 | Day | Date       | What I built                                                      | What was difficult              |
 |-----|------------|-------------------------------------------------------------------|---------------------------------|
 | 1   | 2026-09-01 | Java 21 examples , Java 8 → 21 Evolution                          | Flow scoping                    |
-| 2   | 2026-09-02 | Records, Sealed Types & Immutable Domain Modelling                | Record	vs Lombok @Value vs POJO  |
+| 2   | 2026-09-02 | Records, Sealed Types & Immutable Domain Modelling                | Record vs Lombok @Value vs POJO |
 | 3   | 2026-09-03 | Pattern Matching for switch, Record Patterns & Switch Expressions | Visitor Pattern, exhaustiveness |
 | 4   | 2026-09-04 | Collections Deep Dive, Sequenced Collections & Advanced Streams   |                                 |
-|    |            |                                                                   |                                 |
-|    |            |                                                                   |                                 |
+| 5   | 2026-09-05 | Strings, Generics & Week 1 Consolidation                          | PECS                            |
+|     |            |                                                                   |                                 |
+|     |            |                                                                   |                                 |
 
 
 | Feature                   | Record       | Lombok `@Value`                            | POJO    |
@@ -63,3 +64,12 @@ I would still choose Visitor when the set of element types is stable but many di
 | Allows `null`? | ❌ | Usually ✅ | ❌ |
 | Immutable? | ✅ | ❌ (only the view is unmodifiable) | ✅ |
 | Best use | Creating small immutable lists | Exposing an existing mutable list safely | Taking an immutable snapshot |
+
+
+## String benchmark
+
+| Iterations | `String +=` | `StringBuilder` | Winner                         |
+| ---------: |------------:|----------------:|--------------------------------|
+|         10 |       0.149 |           0.043 | StringBuilder (~3.5x faster)   |
+|      1,000 |      57.646 |           2.404 | StringBuilder (~24x faster)    |
+|    100,000 |  529744.440 |         332.521 | StringBuilder (~1,593x faster) |
